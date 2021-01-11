@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <receiver android:name=".ScreenReceiver"></receiver>
         <service android:name=".ScreenService"></service>
-        <activity android:name=".LockScreenActivity"></activity>
+        <activity android:name=".LockScreenActivity"
+            android:noHistory="true"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
