@@ -6,10 +6,14 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
+import android.os.SystemClock
 import androidx.core.app.NotificationCompat
+import java.util.*
 
 class ScreenService : Service() {
     private var mReceiver: ScreenReceiver? = null
+
+
     val channelId = "com.suw.lockscreen"
     val channelName = "My service channel"
     override fun onBind(intent: Intent): IBinder? {
@@ -25,9 +29,47 @@ class ScreenService : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
+        initializeNotification(intent)
+        registerRestartAlarm(true)
+        /*if (intent != null) {
+            if (intent.action == null) {
+                if (mReceiver == null) {
+                    mReceiver = ScreenReceiver()
+                    val filter = IntentFilter(Intent.ACTION_SCREEN_OFF)
+                    registerReceiver(mReceiver, filter)
+                }
+            }
+        }*/
+        return START_REDELIVER_INTENT
+    }
 
-        /*val pendingIntent:PendingIntent = PendingIntent.getActivity(this,0,intent,0)
+    override fun onDestroy() {
+        super.onDestroy()
+        registerRestartAlarm(true)
+        /*var calendar:Calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.add(Calendar.SECOND,3)
 
+        val intent:Intent = Intent(this,ScreenReceiver::class.java)
+        val sender:PendingIntent = PendingIntent.getBroadcast(this,0,intent,0)
+
+        val alarmManager:AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender)*/
+    }
+
+    fun registerRestartAlarm(isOn:Boolean){
+        val intent:Intent = Intent(this,RestartReceiver::class.java)
+        val sender:PendingIntent = PendingIntent.getBroadcast(this,0,intent,0)
+
+        val alarmManager:AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        if(isOn){
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime()+100,100,sender)
+        }else{
+            alarmManager.cancel(sender)
+        }
+    }
+    fun initializeNotification(intent:Intent){
+        val pendingIntent:PendingIntent = PendingIntent.getActivity(this,0,intent,0)
         if (Build.VERSION.SDK_INT >= 26) {
             val channel = NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             var manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -41,24 +83,21 @@ class ScreenService : Service() {
             .setCategory(NotificationCompat.CATEGORY_CALL)
             .setFullScreenIntent(pendingIntent, true)
         val notification = notificationBuilder.build()
-        val NOTIFICATION_ID = 12345*/
-
-
-        if (intent != null) {
-            if (intent.action == null) {
-                if (mReceiver == null) {
-                    mReceiver = ScreenReceiver()
-                    val filter = IntentFilter(Intent.ACTION_SCREEN_OFF)
-                    registerReceiver(mReceiver, filter)
-                }
-            }
-        }
-        //startForeground(NOTIFICATION_ID, notification)
-        return START_REDELIVER_INTENT
+        val NOTIFICATION_ID = 12345
+        startForeground(NOTIFICATION_ID, notification)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(mReceiver)
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+
+        var calendar:Calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(System.currentTimeMillis())
+        calendar.add(Calendar.SECOND,3)
+
+        val intent:Intent = Intent(this,ScreenReceiver::class.java)
+        val sender:PendingIntent = PendingIntent.getBroadcast(this,0,intent,0)
+
+        val alarmManager:AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender)
     }
 }
