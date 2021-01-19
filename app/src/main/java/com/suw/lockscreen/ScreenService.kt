@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import java.util.*
 
@@ -31,30 +32,14 @@ class ScreenService : Service() {
         super.onStartCommand(intent, flags, startId)
         initializeNotification(intent)
         registerRestartAlarm(true)
-        /*if (intent != null) {
-            if (intent.action == null) {
-                if (mReceiver == null) {
-                    mReceiver = ScreenReceiver()
-                    val filter = IntentFilter(Intent.ACTION_SCREEN_OFF)
-                    registerReceiver(mReceiver, filter)
-                }
-            }
-        }*/
+        Toast.makeText(applicationContext,"working registerRestartAlarm on startCommand",Toast.LENGTH_SHORT).show()
         return START_REDELIVER_INTENT
     }
 
     override fun onDestroy() {
         super.onDestroy()
         registerRestartAlarm(true)
-        /*var calendar:Calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(System.currentTimeMillis())
-        calendar.add(Calendar.SECOND,3)
-
-        val intent:Intent = Intent(this,ScreenReceiver::class.java)
-        val sender:PendingIntent = PendingIntent.getBroadcast(this,0,intent,0)
-
-        val alarmManager:AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),sender)*/
+        Toast.makeText(applicationContext,"working registerRestartAlarm on Destory",Toast.LENGTH_SHORT).show()
     }
 
     fun registerRestartAlarm(isOn:Boolean){

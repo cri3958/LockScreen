@@ -3,6 +3,7 @@
     package="com.suw.lockscreen">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -12,10 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
+            android:name=".AutoStartReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
+        <receiver
             android:name=".RestartReceiver"
             android:process=".remote">
             <intent-filter>
-                <action android:name="RestartReceiver.restart"/>
+                <action android:name="RestartReceiver.restart" />
             </intent-filter>
         </receiver>
         <receiver android:name=".ScreenReceiver" />

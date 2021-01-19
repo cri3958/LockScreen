@@ -19,9 +19,5 @@ class LockScreenActivity : AppCompatActivity() {
             setShowWhenLocked(true)
             setTurnScreenOn(true)
         }
-
-        //val intent: Intent = Intent(applicationContext,ScreenService::class.java)
-        //startService(intent)
-
     }
 }
