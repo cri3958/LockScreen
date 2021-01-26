@@ -9,7 +9,7 @@ class RestartReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if(intent.getAction().equals(ACTION_RESTART_SERVICE)){
             val intent:Intent = Intent(context,ScreenService::class.java)
-            context.startService(intent)
+            context.startForegroundService(intent)
         }
     }
 }
