@@ -1,4 +1,4 @@
-package com.suw.lockscreen
+package com.suw.lockscreen.service
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,7 +8,8 @@ class RestartReceiver : BroadcastReceiver() {
     val ACTION_RESTART_SERVICE:String = "RestartReceiver.restart"
     override fun onReceive(context: Context, intent: Intent) {
         if(intent.getAction().equals(ACTION_RESTART_SERVICE)){
-            val intent:Intent = Intent(context,ScreenService::class.java)
+            val intent:Intent = Intent(context,
+                ScreenService::class.java)
             context.startForegroundService(intent)
         }
     }

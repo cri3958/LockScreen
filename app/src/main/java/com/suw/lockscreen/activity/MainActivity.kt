@@ -1,4 +1,4 @@
-package com.suw.lockscreen
+package com.suw.lockscreen.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.suw.lockscreen.R
+import com.suw.lockscreen.service.ScreenService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,14 +42,17 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        startForegroundService(Intent(applicationContext,ScreenService::class.java))
+        startForegroundService(Intent(applicationContext,
+            ScreenService::class.java))
 
         btn_start.setOnClickListener {
-            val intent: Intent = Intent(applicationContext,ScreenService::class.java)
+            val intent: Intent = Intent(applicationContext,
+                ScreenService::class.java)
             startForegroundService(intent)
         }
         btn_stop.setOnClickListener {
-            val intent: Intent = Intent(applicationContext,ScreenService::class.java)
+            val intent: Intent = Intent(applicationContext,
+                ScreenService::class.java)
             stopService(intent)
         }
     }

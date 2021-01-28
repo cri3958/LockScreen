@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">LockScreen</string>
+
+    <string name="login_id">아이디를 입력하여주십시오</string>
+    <string name="login_pw">비밀번호를 입력하여주십시오</string>
+    <string name="login_login">로그인</string>
 </resources>
