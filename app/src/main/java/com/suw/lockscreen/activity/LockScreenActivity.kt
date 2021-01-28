@@ -1,14 +1,9 @@
-package com.suw.lockscreen
+package com.suw.lockscreen.activity
 
-import android.app.KeyguardManager
-import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Toast
+import com.suw.lockscreen.R
 
 class LockScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

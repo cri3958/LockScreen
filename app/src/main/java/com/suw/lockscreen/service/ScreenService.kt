@@ -1,4 +1,4 @@
-package com.suw.lockscreen
+package com.suw.lockscreen.service
 
 import android.app.*
 import android.content.Context
@@ -9,6 +9,7 @@ import android.os.IBinder
 import android.os.SystemClock
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import com.suw.lockscreen.R
 import java.util.*
 
 class ScreenService : Service() {
@@ -43,7 +44,8 @@ class ScreenService : Service() {
     }
 
     fun registerRestartAlarm(isOn:Boolean){
-        val intent:Intent = Intent(this,RestartReceiver::class.java)
+        val intent:Intent = Intent(this,
+            RestartReceiver::class.java)
         val sender:PendingIntent = PendingIntent.getBroadcast(this,0,intent,0)
 
         val alarmManager:AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
@@ -79,7 +81,8 @@ class ScreenService : Service() {
         calendar.setTimeInMillis(System.currentTimeMillis())
         calendar.add(Calendar.SECOND,3)
 
-        val intent:Intent = Intent(this,ScreenReceiver::class.java)
+        val intent:Intent = Intent(this,
+            ScreenReceiver::class.java)
         val sender:PendingIntent = PendingIntent.getBroadcast(this,0,intent,0)
 
         val alarmManager:AlarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
