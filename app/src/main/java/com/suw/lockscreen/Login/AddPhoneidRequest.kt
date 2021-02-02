@@ -1,13 +1,12 @@
 package com.suw.lockscreen.Login
 
-import android.util.Log
-import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import java.util.*
+import java.util.HashMap
 
-class LoginRequest(userID: String, userPW: String, listener: Response.Listener<String>) : StringRequest(Method.POST, URL, listener, null)
+class AddPhoneidRequest(userID:String, userPhoneid:String, listener: Response.Listener<String>) : StringRequest(
+    Method.POST, URL, listener, null)
 {
     private val map: MutableMap<String, String>
 
@@ -17,12 +16,12 @@ class LoginRequest(userID: String, userPW: String, listener: Response.Listener<S
     }
 
     companion object {
-        private const val URL = "http://leehojin0207.dothome.co.kr/LockScreen_Login.php"
+        private const val URL = "http://leehojin0207.dothome.co.kr/LockScreen_AddPhoneid.php"
     }
 
     init {
         map = HashMap()
         map["userID"] = userID
-        map["userPW"] = userPW
+        map["userPhoneid"] = userPhoneid
     }
 }
