@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Process
+import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,6 +18,7 @@ import com.suw.lockscreen.activity.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,36 +30,33 @@ class LoginActivity : AppCompatActivity() {
                 val id = login_text_id.text.toString().trim()
                 val pw = login_text_pw.text.toString().trim()
 
-                val responseListener = Response.Listener<String> {response ->
-                    Log.d("response","really?")
-
-
-                        try {//이새끼가 문제에요!!!!!
-                            Log.d("@@@@@@","?????????????????")
-                            val jsonObject = JSONObject(response)
-                            val success = jsonObject.getBoolean("success")
-                            if (success) {
-                                val userID = jsonObject.getString("userID")
-                                val userPW = jsonObject.getString("userPW")
-                                Log.d("@@@@@", "로그인 성공$userID/$userPW")
-                                val intent = Intent(this, MainActivity::class.java)
-                                startActivity(intent)
-                                //핸드폰에 저장해서 다음에 실행하면 바로 메인으로 가도록하기
-                                finish()
-                            } else {
-                                Toast.makeText(applicationContext, "로그인 실패", Toast.LENGTH_SHORT).show()
+                val responseListener = Response.Listener<String>(){response->
+                        fun onResponse(response: String) {
+                            try {
+                                val jsonObject = JSONObject(response)
+                                val success = jsonObject.getBoolean("success")
+                                if (success) {
+                                    val userID = jsonObject.getString("userID")
+                                    val userPW = jsonObject.getString("userPW")
+                                    Log.d("@@@@@", "로그인 성공$userID/$userPW")
+                                    addPhoneid(userID)
+                                } else {
+                                    Toast.makeText(applicationContext, "로그인 실패", Toast.LENGTH_SHORT).show()
+                                }
+                            } catch (e: JSONException) {
+                                e.printStackTrace()
                             }
-                        } catch (e: JSONException) {
-                            Log.d("@@@","??")
-                            e.printStackTrace()
                         }
-
+                    onResponse(response)
                 }
-
                 val loginRequest: LoginRequest = LoginRequest(id, pw, responseListener)
                 val queue: RequestQueue = Volley.newRequestQueue(this)
                 queue.add(loginRequest)
             }
+        }
+
+        login_btn_main.setOnClickListener {
+            startActivity(Intent(this,MainActivity::class.java))
         }
     }
     private fun CheckInternetState(): Boolean {
@@ -83,5 +82,31 @@ class LoginActivity : AppCompatActivity() {
                 .show()
         }
         return check
+    }
+    fun addPhoneid(userID:String){
+        val Phoneid = Settings.Secure.getString(this.contentResolver,Settings.Secure.ANDROID_ID)
+        val responseListener = Response.Listener<String>(){response->
+            fun onResponse(response: String) {
+                try {
+                    val jsonObject = JSONObject(response)
+                    val success = jsonObject.getBoolean("success")
+                    if (success) {
+                        Toast.makeText(applicationContext,"Phoneid 등록 성공 : "+Phoneid,Toast.LENGTH_SHORT).show()
+                        Log.d("Phoneid","Phoneid 등록 성공 : "+Phoneid)
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(applicationContext, "Phoneid 등록 실패", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            }
+            onResponse(response)
+        }
+        val AddphoneidRequest = AddPhoneidRequest(userID, Phoneid, responseListener)
+        val queue: RequestQueue = Volley.newRequestQueue(this)
+        queue.add(AddphoneidRequest)
     }
 }
