@@ -15,6 +15,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.Volley
 import com.suw.lockscreen.R
 import com.suw.lockscreen.activity.MainActivity
+import com.suw.lockscreen.memo.MemoActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -93,7 +94,7 @@ class LoginActivity : AppCompatActivity() {
                     if (success) {
                         Toast.makeText(applicationContext,"Phoneid 등록 성공 : "+Phoneid,Toast.LENGTH_SHORT).show()
                         Log.d("Phoneid","Phoneid 등록 성공 : "+Phoneid)
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, MemoActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {
