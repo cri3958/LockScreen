@@ -7,8 +7,12 @@
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
 
-
     <color name="login_btn_login">#353535</color>
     <color name="login_layout_background_solid">#E6E5E5</color>
     <color name="login_layout_background_storke">#A3A3A3</color>
+
+    <color name="memo_background">#344D85</color>
+    <color name="memo_background_btn_addmemo">#38528D</color>
+    <color name="memo_background_item">#3C5899</color>
+    <color name="memo_background_item_line">#5474BC</color>
 </resources>
