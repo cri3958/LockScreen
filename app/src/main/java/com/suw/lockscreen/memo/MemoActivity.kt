@@ -1,5 +1,6 @@
 package com.suw.lockscreen.memo
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,8 @@ class MemoActivity : AppCompatActivity() {
 
         memo_recyclerView.adapter = adapter
         memo_recyclerView.layoutManager = LinearLayoutManager(this)
+
+        memo_btn_addmemo.setOnClickListener{startActivity(Intent(this,MemoItemAddActivity::class.java))}
     }
 
     fun loadData():MutableList<Memo>{

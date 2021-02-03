@@ -15,4 +15,7 @@
     <color name="memo_background_btn_addmemo">#38528D</color>
     <color name="memo_background_item">#3C5899</color>
     <color name="memo_background_item_line">#5474BC</color>
+
+    <color name="memo_background_itemadd1">#CDCDCB</color>
+    <color name="memo_background_itemadd2">#969696</color>
 </resources>
