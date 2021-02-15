@@ -8,7 +8,7 @@ import com.suw.lockscreen.R
 import kotlinx.android.synthetic.main.item_recycle.view.*
 
 class MemoAdapter : RecyclerView.Adapter<Holder>() {
-    var listData = mutableListOf<Memo>()
+    var listData = mutableListOf<memo>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recycle, parent, false)
         return Holder(view)
@@ -25,7 +25,7 @@ class MemoAdapter : RecyclerView.Adapter<Holder>() {
 }
 
 class Holder(itemView: View) : RecyclerView.ViewHolder(itemView){
-    fun setMemo(memo:Memo){
-        itemView.memo_item_text.text = memo.text
+    fun setMemo(memo:memo){
+        itemView.memo_item_text.text = memo.getText()
     }
 }

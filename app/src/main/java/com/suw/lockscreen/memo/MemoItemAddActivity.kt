@@ -1,6 +1,7 @@
 package com.suw.lockscreen.memo
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -20,6 +21,8 @@ class MemoItemAddActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_memo_item_add)
 
+
+        val db = DBHelper(this)
         addmemo_text.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(p0: Editable?) {
                 if(addmemo_text.text.isEmpty()){
@@ -45,8 +48,13 @@ class MemoItemAddActivity : AppCompatActivity() {
         addmemo_background.setOnTouchListener{ _: View, event: MotionEvent ->true}
 
         addmemo_btn_save.setOnClickListener {
-            val text = addmemo_text.text.trim()
-            //잘 저장하기
+            val text = addmemo_text.text.trim().toString()
+            val datamemo = memo()
+            datamemo.setText(text)
+            db.insertMEMOLIST(datamemo)
+            Toast.makeText(applicationContext,"새로운 메모가 저장되었습니다.",Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this,MemoActivity::class.java))
+            finish()
         }
 
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
